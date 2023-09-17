@@ -57,7 +57,6 @@ class Compiler:
     is_gcc: ClassVar[bool] = False
     is_ido: ClassVar[bool] = False
     is_mwcc: ClassVar[bool] = False
-    needs_wine = False
     language: Language = Language.C
 
     @property
@@ -211,7 +210,7 @@ AGBCCPP = GCCCompiler(
     cc='cc -E -I "${COMPILER_DIR}"/include -iquote include -nostdinc -undef "$INPUT" | "${COMPILER_DIR}"/bin/agbcp -quiet $COMPILER_FLAGS -o - | arm-none-eabi-as -mcpu=arm7tdmi -o "$OUTPUT"',
 )
 # N3DS
-ARMCC_CC = '${WINE} "${COMPILER_DIR}"/bin/armcc.exe -c --cpu=MPCore --fpmode=fast --apcs=/interwork -I "${COMPILER_DIR}"/include $COMPILER_FLAGS -o "${OUTPUT}" "${INPUT}"'
+ARMCC_CC = '${WIBO} "${COMPILER_DIR}"/bin/armcc.exe -c --cpu=MPCore --fpmode=fast --apcs=/interwork -I "${COMPILER_DIR}"/include $COMPILER_FLAGS -o "${OUTPUT}" "${INPUT}"'
 
 ARMCC_40_771 = ArmccCompiler(
     id="armcc_40_771",
@@ -305,7 +304,7 @@ PSYQ_MSDOS_CC = (
     + '(HOME="." dosemu -quiet -dumb -f ${COMPILER_DIR}/dosemurc -K . -E "ASPSX.EXE -quiet object.os -o object.oo") && '
     + '${COMPILER_DIR}/psyq-obj-parser object.oo -o "$OUTPUT"'
 )
-PSYQ_CC = 'cpp -P "$INPUT" | unix2dos | ${WINE} ${COMPILER_DIR}/CC1PSX.EXE -quiet ${COMPILER_FLAGS} -o "$OUTPUT".s && ${WINE} ${COMPILER_DIR}/ASPSX.EXE -quiet "$OUTPUT".s -o "$OUTPUT".obj && ${COMPILER_DIR}/psyq-obj-parser "$OUTPUT".obj -o "$OUTPUT"'
+PSYQ_CC = 'cpp -P "$INPUT" | unix2dos | ${WIBO} ${COMPILER_DIR}/CC1PSX.EXE -quiet ${COMPILER_FLAGS} -o "$OUTPUT".s && ${WIBO} ${COMPILER_DIR}/ASPSX.EXE -quiet "$OUTPUT".s -o "$OUTPUT".obj && ${COMPILER_DIR}/psyq-obj-parser "$OUTPUT".obj -o "$OUTPUT"'
 
 PSYQ35 = GCCPS1Compiler(
     id="psyq3.5",
@@ -465,31 +464,31 @@ EE_GCC29_991111_01 = GCCCompiler(
 EE_GCC2952_273A = GCCCompiler(
     id="ee-gcc2.95.2-273a",
     platform=PS2,
-    cc='${WINE} "${COMPILER_DIR}/bin/ee-gcc.exe" -c -B "${COMPILER_DIR}"/lib/gcc-lib/ee/2.95.2/ $COMPILER_FLAGS "$INPUT" -o "$OUTPUT"',
+    cc='${WIBO} "${COMPILER_DIR}/bin/ee-gcc.exe" -c -B "${COMPILER_DIR}"/lib/gcc-lib/ee/2.95.2/ $COMPILER_FLAGS "$INPUT" -o "$OUTPUT"',
 )
 
 EE_GCC2952_274 = GCCCompiler(
     id="ee-gcc2.95.2-274",
     platform=PS2,
-    cc='${WINE} "${COMPILER_DIR}/bin/ee-gcc.exe" -c -B "${COMPILER_DIR}"/lib/gcc-lib/ee/2.95.2/ $COMPILER_FLAGS "$INPUT" -o "$OUTPUT"',
+    cc='${WIBO} "${COMPILER_DIR}/bin/ee-gcc.exe" -c -B "${COMPILER_DIR}"/lib/gcc-lib/ee/2.95.2/ $COMPILER_FLAGS "$INPUT" -o "$OUTPUT"',
 )
 
 EE_GCC2953_107 = GCCCompiler(
     id="ee-gcc2.95.3-107",
     platform=PS2,
-    cc='${WINE} "${COMPILER_DIR}/bin/ee-gcc.exe" -c -B "${COMPILER_DIR}"/lib/gcc-lib/ee/2.95.3/ $COMPILER_FLAGS "$INPUT" -o "$OUTPUT"',
+    cc='${WIBO} "${COMPILER_DIR}/bin/ee-gcc.exe" -c -B "${COMPILER_DIR}"/lib/gcc-lib/ee/2.95.3/ $COMPILER_FLAGS "$INPUT" -o "$OUTPUT"',
 )
 
 EE_GCC2953_114 = GCCCompiler(
     id="ee-gcc2.95.3-114",
     platform=PS2,
-    cc='${WINE} "${COMPILER_DIR}/bin/ee-gcc.exe" -c -B "${COMPILER_DIR}"/lib/gcc-lib/ee/2.95.3/ $COMPILER_FLAGS "$INPUT" -o "$OUTPUT"',
+    cc='${WIBO} "${COMPILER_DIR}/bin/ee-gcc.exe" -c -B "${COMPILER_DIR}"/lib/gcc-lib/ee/2.95.3/ $COMPILER_FLAGS "$INPUT" -o "$OUTPUT"',
 )
 
 EE_GCC2953_136 = GCCCompiler(
     id="ee-gcc2.95.3-136",
     platform=PS2,
-    cc='${WINE} "${COMPILER_DIR}/bin/ee-gcc.exe" -c -B "${COMPILER_DIR}"/lib/gcc-lib/ee/2.95.3/ $COMPILER_FLAGS "$INPUT" -o "$OUTPUT"',
+    cc='${WIBO} "${COMPILER_DIR}/bin/ee-gcc.exe" -c -B "${COMPILER_DIR}"/lib/gcc-lib/ee/2.95.3/ $COMPILER_FLAGS "$INPUT" -o "$OUTPUT"',
 )
 
 EE_GCC296 = GCCCompiler(
@@ -507,31 +506,31 @@ EE_GCC32_040921 = GCCCompiler(
 MWCPS2_23_991202 = MWCCCompiler(
     id="mwcps2-2.3-991202",
     platform=PS2,
-    cc='${WINE} "${COMPILER_DIR}/mwccmips.exe" -c $COMPILER_FLAGS -nostdinc -stderr "$INPUT" -o "$OUTPUT"',
+    cc='${WIBO} "${COMPILER_DIR}/mwccmips.exe" -c $COMPILER_FLAGS -nostdinc -stderr "$INPUT" -o "$OUTPUT"',
 )
 
 MWCPS2_30B22_011126 = MWCCCompiler(
     id="mwcps2-3.0b22-011126",
     platform=PS2,
-    cc='${WINE} "${COMPILER_DIR}/mwccps2.exe" -c $COMPILER_FLAGS -nostdinc -stderr "$INPUT" -o "$OUTPUT"',
+    cc='${WIBO} "${COMPILER_DIR}/mwccps2.exe" -c $COMPILER_FLAGS -nostdinc -stderr "$INPUT" -o "$OUTPUT"',
 )
 
 MWCPS2_30B22_020123 = MWCCCompiler(
     id="mwcps2-3.0b22-020123",
     platform=PS2,
-    cc='${WINE} "${COMPILER_DIR}/mwccps2.exe" -c $COMPILER_FLAGS -nostdinc -stderr "$INPUT" -o "$OUTPUT"',
+    cc='${WIBO} "${COMPILER_DIR}/mwccps2.exe" -c $COMPILER_FLAGS -nostdinc -stderr "$INPUT" -o "$OUTPUT"',
 )
 
 MWCPS2_30B22_020716 = MWCCCompiler(
     id="mwcps2-3.0b22-020716",
     platform=PS2,
-    cc='${WINE} "${COMPILER_DIR}/mwccps2.exe" -c $COMPILER_FLAGS -nostdinc -stderr "$INPUT" -o "$OUTPUT"',
+    cc='${WIBO} "${COMPILER_DIR}/mwccps2.exe" -c $COMPILER_FLAGS -nostdinc -stderr "$INPUT" -o "$OUTPUT"',
 )
 
 MWCPS2_30B22_020926 = MWCCCompiler(
     id="mwcps2-3.0b22-020926",
     platform=PS2,
-    cc='${WINE} "${COMPILER_DIR}/mwccps2.exe" -c $COMPILER_FLAGS -nostdinc -stderr "$INPUT" -o "$OUTPUT"',
+    cc='${WIBO} "${COMPILER_DIR}/mwccps2.exe" -c $COMPILER_FLAGS -nostdinc -stderr "$INPUT" -o "$OUTPUT"',
 )
 
 
@@ -582,7 +581,7 @@ GCC281PM = GCCCompiler(
 GCC272SN = GCCCompiler(
     id="gcc2.7.2sn",
     platform=N64,
-    cc='cpp -P "$INPUT" | ${WINE} "${COMPILER_DIR}"/cc1n64.exe -quiet -G0 -mcpu=vr4300 -mips3 -mhard-float -meb ${COMPILER_FLAGS} -o "$OUTPUT".s && ${WINE} "${COMPILER_DIR}"/asn64.exe -q -G0 "$OUTPUT".s -o "$OUTPUT".obj && "${COMPILER_DIR}"/psyq-obj-parser "$OUTPUT".obj -o "$OUTPUT" -b -n',
+    cc='cpp -P "$INPUT" | ${WIBO} "${COMPILER_DIR}"/cc1n64.exe -quiet -G0 -mcpu=vr4300 -mips3 -mhard-float -meb ${COMPILER_FLAGS} -o "$OUTPUT".s && ${WIBO} "${COMPILER_DIR}"/asn64.exe -q -G0 "$OUTPUT".s -o "$OUTPUT".obj && "${COMPILER_DIR}"/psyq-obj-parser "$OUTPUT".obj -o "$OUTPUT" -b -n',
 )
 
 GCC272SNEW = GCCCompiler(
@@ -595,8 +594,8 @@ GCC281SN = GCCCompiler(
     id="gcc2.8.1sn",
     platform=N64,
     cc='cpp -E -lang-c -undef -D__GNUC__=2 -Dmips -D__mips__ -D__mips -Dn64 -D__n64__ -D__n64 -D_PSYQ -D__EXTENSIONS__ -D_MIPSEB -D__CHAR_UNSIGNED__ "$INPUT" '
-    '| ${WINE} "${COMPILER_DIR}"/cc1n64.exe ${COMPILER_FLAGS} -o "$OUTPUT".s '
-    '&& ${WINE} "${COMPILER_DIR}"/asn64.exe -q -G0 "$OUTPUT".s -o "$OUTPUT".obj '
+    '| ${WIBO} "${COMPILER_DIR}"/cc1n64.exe ${COMPILER_FLAGS} -o "$OUTPUT".s '
+    '&& ${WIBO} "${COMPILER_DIR}"/asn64.exe -q -G0 "$OUTPUT".s -o "$OUTPUT".obj '
     '&& "${COMPILER_DIR}"/psyq-obj-parser "$OUTPUT".obj -o "$OUTPUT" -b -n',
 )
 
@@ -605,8 +604,8 @@ GCC281SNCXX = GCCCompiler(
     base_compiler=GCC281SN,
     platform=N64,
     cc='cpp -E -lang-c++ -undef -D__GNUC__=2 -D__cplusplus -Dmips -D__mips__ -D__mips -Dn64 -D__n64__ -D__n64 -D_PSYQ -D__EXTENSIONS__ -D_MIPSEB -D__CHAR_UNSIGNED__ -D_LANGUAGE_C_PLUS_PLUS "$INPUT" '
-    '| ${WINE} "${COMPILER_DIR}"/cc1pln64.exe ${COMPILER_FLAGS} -o "$OUTPUT".s '
-    '&& ${WINE} "${COMPILER_DIR}"/asn64.exe -q -G0 "$OUTPUT".s -o "$OUTPUT".obj '
+    '| ${WIBO} "${COMPILER_DIR}"/cc1pln64.exe ${COMPILER_FLAGS} -o "$OUTPUT".s '
+    '&& ${WIBO} "${COMPILER_DIR}"/asn64.exe -q -G0 "$OUTPUT".s -o "$OUTPUT".obj '
     '&& "${COMPILER_DIR}"/psyq-obj-parser "$OUTPUT".obj -o "$OUTPUT" -b -n',
 )
 
@@ -737,7 +736,7 @@ PBX_GCC3 = GCCCompiler(
 # GC_WII
 # Thanks to Gordon Davisson for the xargs trick:
 # https://superuser.com/questions/1529226/get-bash-to-respect-quotes-when-word-splitting-subshell-output/1529316#1529316
-MWCCEPPC_CC = 'printf "%s" "${COMPILER_FLAGS}" | xargs -x -- ${WINE} "${COMPILER_DIR}/mwcceppc.exe" -pragma "msg_show_realref off" -c -proc gekko -nostdinc -stderr -o "${OUTPUT}" "${INPUT}"'
+MWCCEPPC_CC = 'printf "%s" "${COMPILER_FLAGS}" | xargs -x -- ${WIBO} "${COMPILER_DIR}/mwcceppc.exe" -pragma "msg_show_realref off" -c -proc gekko -nostdinc -stderr -o "${OUTPUT}" "${INPUT}"'
 
 MWCC_233_144 = MWCCCompiler(
     id="mwcc_233_144",
@@ -759,7 +758,7 @@ MWCC_233_163 = MWCCCompiler(
 MWCC_233_163E = MWCCCompiler(
     id="mwcc_233_163e",
     platform=GC_WII,
-    cc='${WINE} "${COMPILER_DIR}/mwcceppc.125.exe" -c -proc gekko -nostdinc -stderr ${COMPILER_FLAGS} -o "${OUTPUT}.1" "${INPUT}" && ${WINE} "${COMPILER_DIR}/mwcceppc.exe" -c -proc gekko -nostdinc -stderr ${COMPILER_FLAGS} -o "${OUTPUT}.2" "${INPUT}" && python3 "${COMPILER_DIR}/frank.py" "${OUTPUT}.1" "${OUTPUT}.2" "${OUTPUT}"',
+    cc='${WIBO} "${COMPILER_DIR}/mwcceppc.125.exe" -c -proc gekko -nostdinc -stderr ${COMPILER_FLAGS} -o "${OUTPUT}.1" "${INPUT}" && ${WIBO} "${COMPILER_DIR}/mwcceppc.exe" -c -proc gekko -nostdinc -stderr ${COMPILER_FLAGS} -o "${OUTPUT}.2" "${INPUT}" && python3 "${COMPILER_DIR}/frank.py" "${OUTPUT}.1" "${OUTPUT}.2" "${OUTPUT}"',
 )
 
 MWCC_233_163N = MWCCCompiler(
@@ -847,7 +846,7 @@ MWCC_43_213 = MWCCCompiler(
 )
 
 # NDS_ARM9
-MWCCARM_CC = '${WINE} "${COMPILER_DIR}/mwccarm.exe" -pragma "msg_show_realref off" -c -proc arm946e -nostdinc -stderr ${COMPILER_FLAGS} -o "${OUTPUT}" "${INPUT}"'
+MWCCARM_CC = '${WIBO} "${COMPILER_DIR}/mwccarm.exe" -pragma "msg_show_realref off" -c -proc arm946e -nostdinc -stderr ${COMPILER_FLAGS} -o "${OUTPUT}" "${INPUT}"'
 
 MWCC_20_72 = MWCCCompiler(
     id="mwcc_20_72",
@@ -987,7 +986,7 @@ MWCC_40_1051 = MWCCCompiler(
     cc=MWCCARM_CC,
 )
 
-CL_WIN = '${WINE} "${COMPILER_DIR}"/Bin/CL.EXE /c /nologo /IZ:"${COMPILER_DIR}"/Include/ ${COMPILER_FLAGS} /Fd"Z:/tmp/" /Bk"Z:/tmp/" /Fo"Z:${OUTPUT}" "Z:${INPUT}"'
+CL_WIN = '${WIBO} "${COMPILER_DIR}"/Bin/CL.EXE /c /nologo /IZ:"${COMPILER_DIR}"/Include/ ${COMPILER_FLAGS} /Fd"Z:/tmp/" /Bk"Z:/tmp/" /Fo"Z:${OUTPUT}" "Z:${INPUT}"'
 
 MSVC40 = MSVCCompiler(
     id="msvc4.0",
@@ -1051,12 +1050,12 @@ MSVC71 = MSVCCompiler(
 # Watcom doesn't like '/' in paths passed to it so we need to replace them.
 WATCOM_ARGS = ' -zq -i="Z:${COMPILER_DIR}/h" -i="Z:${COMPILER_DIR}/h/nt" ${COMPILER_FLAGS} -fo"Z:${OUTPUT}" "Z:${INPUT}"'
 WATCOM_CC = (
-    '${WINE} "${COMPILER_DIR}/binnt/wcc386.exe" $(echo "'
+    '${WIBO} "${COMPILER_DIR}/binnt/wcc386.exe" $(echo "'
     + WATCOM_ARGS
     + "\" | sed 's:/:\\\\:g')"
 )
 WATCOM_CXX = (
-    '${WINE} "${COMPILER_DIR}/binnt/wpp386.exe" $(echo "'
+    '${WIBO} "${COMPILER_DIR}/binnt/wpp386.exe" $(echo "'
     + WATCOM_ARGS
     + "\" | sed 's:/:\\\\:g')"
 )
